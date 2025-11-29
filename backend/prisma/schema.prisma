@@ -86,12 +86,6 @@ model UsersTemp {
   adminActionTime DateTime?
 }
 
-// 
-// Bank Details {
-// bank name
-// bank accc number
-// ifsc code
-// }
 
 model Group {
   id            String           @id @default(cuid())
@@ -200,5 +194,78 @@ model Mass_Activity {
   mediaLinks          String[]
   photos              String[]
 
+  institutionId   String
+  institution     Institution @relation(fields: [institutionId], references: [institution_id])
+
+
   createdAt           DateTime  @default(now())
+  @@index([institutionId])
+  
 }
+
+model ExecutionPlan {
+  id        String   @id @default(cuid())
+
+  week      String    
+
+  // Presentation
+  Presentation_Commited            Int?
+  Presentatin_Achieved            Int?
+  Presentation_Surplus            Int?
+
+  Students_Sanitized_Commited     Int?
+  Students_Sanitized_Achieved     Int?
+  Sanitized_Surplus               Int?
+
+  //Impact 
+  Impact_Commited                 Int?
+  Impact_Achieved                 Int?
+  Impact_Surplus                  Int?
+
+  Impact_Outreach_Commited        Int?
+  Impact_Outreach_Achieved        Int?
+  Impact_Outreach_Surplus         Int?
+
+  // Mass
+  Mass_Commited                   Int?
+  Mass_Achieved                   Int?
+  Mass_Surplus                    Int?
+
+  Mass_Outreach_Commited          Int?
+  Mass_Outreach_Achieved          Int?
+  Mass_Outreach_Surplus           Int?
+
+  
+  institutionId   String
+  institution     Institution @relation(fields: [institutionId], references: [institution_id])
+
+  createdAt       DateTime   @default(now())
+
+  @@index([institutionId])
+  @@index([week])
+}
+
+model Meeting {
+  id              String    @id @default(cuid())
+
+  meetingNumber   String     
+  meetingDate     DateTime   
+
+  agendaItems     String[]   
+
+  conclusion      String     
+  remark          String?    
+
+  
+  attendancePhoto String?    // URL to uploaded attendance image
+  geoTagPhoto     String?    // URL to geo-tagged photo
+
+  institutionId   String
+  institution     Institution @relation(fields: [institutionId], references: [institution_id])
+
+  createdAt       DateTime @default(now())
+
+  @@index([institutionId])
+  @@index([meetingDate])
+}
+
